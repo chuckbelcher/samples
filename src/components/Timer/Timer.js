@@ -68,13 +68,23 @@ class Timer extends Component {
 
     pauseTime = () => {
         console.log(this.state);
-        this.setState({
-            alert: {
-                type: 'pause',
-                message: 'Paused'
-            },
-            paused: !this.state.paused
-        });
+        if (this.state.paused === false) {
+            this.setState({
+                alert: {
+                    type: 'pause',
+                    message: 'Paused'
+                },
+                paused: !this.state.paused
+            });
+        } else {
+            this.setState({
+                alert: {
+                    type: 'pause',
+                    message: ''
+                },
+                paused: !this.state.paused
+            });
+        }
         console.log(this.state.time);
         //return this.setTime(currTime);
 
@@ -109,14 +119,14 @@ class Timer extends Component {
         });
         return this.setTime(this.times.longBreak);
     }
-    
+
     displayTimer = (seconds) => {
         //format time to mm:ss
         const m = Math.floor(seconds % 3600 / 60);
         const s = Math.floor(seconds % 3600 % 60);
         return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
     }
-    
+
     render() {
         const { alert: { message, type }, time, paused } = this.state;
         return (
@@ -130,27 +140,27 @@ class Timer extends Component {
                 </div>
 
                 <div className="types">
-                    <button 
+                    <button
                         className="short"
                         onClick={this.setTimeForShortBreak}
                     > Short Break
                     </button>
-                    <button 
+                    <button
                         className="work"
                         onClick={this.setTimeForWork}
                     > Start Working
                     </button>
-                    <button 
+                    <button
                         className="long"
                         onClick={this.setTimeForLongBreak}
                     > Long Break
                     </button>
-                    <button 
+                    <button
                         className="pause"
                         onClick={this.pauseTime}
-                    > {paused ? 'Resume' : 'Pause' }
+                    > {paused ? 'Resume' : 'Pause'}
                     </button>
-                    
+
                 </div>
             </div>
         )
