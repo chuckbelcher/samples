@@ -11,8 +11,7 @@ class Timer extends Component {
                 type: '',
                 message: ''
             },
-            time: 0,
-            paused: false
+            time: 0
         };
 
         this.times = {
@@ -20,7 +19,11 @@ class Timer extends Component {
             shortBreak: 300,   // 5 min
             longBreak: 900     //15 min
         };
+
+        this.isPaused = false;
     }
+
+
 
     componentDidMount() {
         //Set default time when component mounts
@@ -35,10 +38,23 @@ class Timer extends Component {
     }
 
     setTime = (newTime) => {
-        this.restartInterval();
-        this.setState({
-            time: newTime
-        });
+        if (this.isPaused === true) {
+            clearInterval(this.interval);
+        } else {
+            this.restartInterval();
+            this.setState({
+                time: newTime
+            });
+        }
+
+    }
+
+    pauseInterval = () => {
+        //Clear Interval
+        clearInterval(this.interval);
+
+        //Execute countDown function every second
+        this.interval = setInterval(this.countDown, 0);
     }
 
     restartInterval = () => {
@@ -67,26 +83,24 @@ class Timer extends Component {
     }
 
     pauseTime = () => {
-        console.log(this.state);
-        if (this.state.paused === false) {
+        if (this.isPaused === false) {
             this.setState({
                 alert: {
                     type: 'pause',
                     message: 'Paused'
-                },
-                paused: !this.state.paused
+                }
             });
+
         } else {
             this.setState({
                 alert: {
                     type: 'pause',
                     message: ''
-                },
-                paused: !this.state.paused
+                }
             });
         }
-        console.log(this.state.time);
-        //return this.setTime(currTime);
+        this.isPaused = !this.isPaused
+        return this.setTime(this.state.time);
 
     }
 
@@ -128,7 +142,7 @@ class Timer extends Component {
     }
 
     render() {
-        const { alert: { message, type }, time, paused } = this.state;
+        const { alert: { message, type }, time } = this.state;
         return (
             <div className="Pomodoro" >
                 <div className={`alert ${type}`}>
@@ -158,7 +172,7 @@ class Timer extends Component {
                     <button
                         className="pause"
                         onClick={this.pauseTime}
-                    > {paused ? 'Resume' : 'Pause'}
+                    > {this.isPaused ? 'Resume' : 'Pause'}
                     </button>
 
                 </div>
