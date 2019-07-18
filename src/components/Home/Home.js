@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './Home.css';
 
 class Home extends Component {
@@ -11,8 +12,8 @@ class Home extends Component {
 
     componentDidMount() {
         //Change the state value after 3 seconds
-        setTimeout(()=> {
-            this.setState({name: 'Chuck'});
+        setTimeout(() => {
+            this.setState({ name: 'Chuck' });
         }, 3000)
     }
 
@@ -27,7 +28,7 @@ class Home extends Component {
             padding: '15px'
         }
 
-    ;
+            ;
 
         //Use destructuring to break out the state
         const { name } = this.state;
@@ -35,11 +36,14 @@ class Home extends Component {
         return (
             <div className="Home">
                 <h1>Welcome to the Home Component</h1>
+                <h3>Cool Project Samples</h3>
+                <ul>
+                    <li><Link to="/timer">Work Timer</Link></li>
+                    <li><Link to="/todo">Todo List</Link></li>
+                </ul>
                 {/* Lets render something from the state */}
                 <p>You are currently logged on as: {name}</p>
-                <button style={infoButton}>Show More</button>
-                <p>Looking at styling for Harvest Front End</p>
-                <a href="http://localhost:3000">Click Me</a>
+                <button style={infoButton}>Future Styled Button</button>
             </div>
         )
     }
